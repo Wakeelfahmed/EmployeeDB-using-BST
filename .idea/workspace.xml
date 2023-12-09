@@ -4,13 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0dff9ed7-b5d3-4ec3-815c-604aa634aa6d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+    <list default="true" id="0dff9ed7-b5d3-4ec3-815c-604aa634aa6d" name="Changes" comment="initial">
       <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/A2_Part_A_BST.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/log.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/A2_Part_A_BST/comp/cw1/pkg2022/COMPCW12023.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/A2_Part_A_BST/comp/cw1/pkg2022/Employee.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/A2_Part_A_BST/comp/cw1/pkg2022/IEmployee.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/A2_Part_A_BST/comp/cw1/pkg2022/IStaffDB.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/comp/cw1/pkg2022/COMPCW12023.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/comp/cw1/pkg2022/Employee.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/comp/cw1/pkg2022/IEmployee.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/comp/cw1/pkg2022/IStaffDB.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,7 +47,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Intellj/HashTabl2",
+    "last_opened_file_path": "C:/Intellj/A2_Part_A_BST",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -59,11 +64,35 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1702140931032</updated>
-      <workItem from="1702140932064" duration="519000" />
+      <workItem from="1702140932064" duration="5856000" />
     </task>
+    <task id="LOCAL-00001" summary="initial">
+      <option name="closed" value="true" />
+      <created>1702141596422</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1702141596422</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="initial" />
+    <option name="LAST_COMMIT_MESSAGE" value="initial" />
   </component>
 </project>
