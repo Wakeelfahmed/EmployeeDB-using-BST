@@ -1,4 +1,5 @@
 package comp.cw1.pkg2022;
+import javax.swing.text.StyledEditorKit;
 import java.io.FileWriter;
 import java.io.IOException;
 public class StaffBST implements IStaffDB {
@@ -38,26 +39,57 @@ public class StaffBST implements IStaffDB {
     }
 
     @Override
-    public boolean containsName(String name) { return get(name) != null; }
+    public boolean containsName(String name) {
+        assert name != null && !name.isEmpty() : "Invalid name given to check";
 
-    private Employee retrieve(Node tree, String name) {
+        Employee result = retrieve(root, name, false);
+        //Employee result = get(name);
+        if (result != null) {
+            logEmployeeInfo("\nContains", name, "\tEmployee found");
+            return true;
+        } else {
+            logEmployeeInfo("\nContains", name, "\tEmployee not found");
+            return false;
+        }
+    }
+   // public boolean containsName(String name) { return get(name) != null; }
+
+    private Employee retrieve(Node tree, String name, Boolean Log) {
         if (tree == null) {
+            if(Log)
+                logEmployeeInfo("");
             return null;
         }
 
         int compareResult = name.compareTo(tree.data.getName());
 
         if (compareResult < 0) {
-            return retrieve(tree.left, name);
+            if(Log)
+                logEmployeeInfo("  Going left", tree.data);
+            return retrieve(tree.left, name, Log);
         } else if (compareResult > 0) {
-            return retrieve(tree.right, name);
+            if(Log)
+                logEmployeeInfo("  Going right", tree.data);
+            return retrieve(tree.right, name, Log);
         } else {
+            if(Log)
+                logEmployeeInfo("  Found", tree.data);
             return tree.data;
         }
     }
 
     @Override
-    public Employee get(String name) { return retrieve(root, name); }
+    public Employee get(String name) {
+        assert name != null && !name.isEmpty() : "Invalid name for get";
+
+        logEmployeeInfo("\nGet " + name +"\n");
+        Employee result = retrieve(root, name, true);
+        if (result == null) {
+            logEmployeeInfo("  " + name + " not found");
+        }
+        return result;
+    }
+    //public Employee get(String name) { return retrieve(root, name); }
 
     @Override
     public int size() { return numEntries; }
@@ -66,34 +98,46 @@ public class StaffBST implements IStaffDB {
     public boolean isEmpty() { return size() == 0; }
 
     private Node insert(Node tree, Employee employee) {
-        if (tree == null) {
+        assert employee != null : "Null employee cannot be added";
+
+        if (tree == null && tree == root) {
+            logEmployeeInfo("  Insertion in Empty tree", employee);
+            return new Node(employee);
+        }
+        else if (tree == null) {
+            logEmployeeInfo("  Insertion", employee);
             return new Node(employee);
         }
 
         int compareResult = employee.getName().compareTo(tree.data.getName());
 
         if (compareResult < 0) {
+            logEmployeeInfo("  Going left", tree.data);
+            if(tree.left == null)
+                logEmployeeInfo("  Found empty node to insert\n");
             tree.left = insert(tree.left, employee);
         } else if (compareResult > 0) {
+            logEmployeeInfo("  Going right", tree.data);
+            if(tree.right == null) {
+                logEmployeeInfo("  Found  empty node to insert\n");
+            }
             tree.right = insert(tree.right, employee);
         } else {
             // Key already exists, update the value or handle accordingly
             tree.data = employee;
+            logEmployeeInfo("  Updation", employee);
         }
-
         return tree;
     }
 
     @Override
     public Employee put(Employee member) {
-        Employee employee_test = get(member.getName());
+        logEmployeeInfo("\nPut", member);
+        Employee employee_test = retrieve(root, member.getName(), false);
         root = insert(root, member);
-        if(employee_test != null){
-            logEmployeeInfo("Updation", member);
-            return employee_test;
-        }
+        if(employee_test != null)
+            return member;
         else{
-            logEmployeeInfo("Insertion", member);
             numEntries++;
             return null;
         }
@@ -101,16 +145,25 @@ public class StaffBST implements IStaffDB {
 
     @Override
     public  Employee remove(String name){
+        assert name != null && !name.isEmpty() : "Invalid name for removal";
+
+        logEmployeeInfo("Remove ", "", name);
 
         Node parent = null, del, p = null, q = null;
         Employee result;
         del = root;
         while (del != null && !del.data.getName().equals(name)) {
             parent = del;
-            if (name.compareTo(del.data.getName()) < 0)
+            if (name.compareTo(del.data.getName()) < 0){
                 del = del.left;
-            else
+                if(del != null)
+                    logEmployeeInfo("  Remove (Going left)", del.data);
+            }
+            else{
                 del = del.right;
+                if(del != null)
+                    logEmployeeInfo("  Remove (Going right)", del.data);
+            }
         }// del == null || del.data.getName().equals(name))
         if(del != null) { // del.data.getName().equals(name)
             // find the pointer p to the node to replace del
@@ -128,15 +181,19 @@ public class StaffBST implements IStaffDB {
             else parent.right = p;
             numEntries--;
             result = del.data;
-            logEmployeeInfo("Deletion", result);
+            logEmployeeInfo("  Remove", result);
         }
-        else result = null;
+        else {
+            result = null;
+            logEmployeeInfo("  Remove", name, "\tnot found for removal");
+        }
         return result;
     } // delete
 
     private void traverse(Node tree) {
         if (tree != null) {
             traverse(tree.left);
+            logEmployeeInfo("  " + tree.data.getName() + "\tAffiliation" + tree.data.getAffiliation() + "\n");
             System.out.println(tree.data.toString()); // or log to file
             traverse(tree.right);
         }
@@ -144,13 +201,39 @@ public class StaffBST implements IStaffDB {
 
     @Override
     public void displayDB() {
+        logEmployeeInfo("\nDisplay");
+        logEmployeeInfo("\n");
         traverse(root);
     }
-        public void logEmployeeInfo(String operation, Employee employee) {
+
+    public void logEmployeeInfo(String message){
         try {
-            logFile.write("Operation: " + operation + "\n");
-            logFile.write("Employee Name: " + employee.getName() + "\n");
+            logFile.write(message);
             logFile.flush();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void logEmployeeInfo(String operation, Employee employee) {
+        try {
+            if (employee != null) {
+                logFile.write(operation + ":\t");
+                logFile.write("Employee Name: " + employee.getName() + "\tAffiliation: " + employee.getAffiliation() + "\n");
+                logFile.flush();
+            } else {
+                logFile.write(operation + ": Employee not found - ");
+                logFile.flush();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void logEmployeeInfo(String operation, String name, String message) {
+        try {
+                logFile.write(operation + ":\t" + "Employee Name: " + name + message + "\n");
+                logFile.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
